@@ -1,0 +1,27 @@
+{
+  "name": "dc_bt_missile_launcher",
+  "version": "1.0.0",
+  "description": "",
+  "main": "run.js",
+  "dependencies": {
+    "bluetooth-serial-port": "^2.1.0",
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
+  },
+  "devDependencies": {
+    "mocha": "^3.1.2"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/T0RAT0RA/dc_bt_missile_launcher.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/T0RAT0RA/dc_bt_missile_launcher/issues"
+  },
+  "homepage": "https://github.com/T0RAT0RA/dc_bt_missile_launcher#readme"
+}
