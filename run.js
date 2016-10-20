@@ -1,47 +1,47 @@
-var btSerial = new (require('bluetooth-serial-port')).BluetoothSerialPort();
-var helpers = require('./helpers');
+var Turret = require('./turret');
 
-let address = '00:11:67:E3:CD:CE';
-let channel = 3;
+var turret = new Turret('00:11:67:E3:CD:CE', 3);
 
-btSerial.connect(address, channel, function() {
-    console.log('Connected.');
+var keypress = require('keypress');
+// make `process.stdin` begin emitting "keypress" events
+keypress(process.stdin);
 
-    let messages = [
-        // Buffer.from([0x0a, 0x30,0x35,0x30,0x34,0x31,0x46,0x41, 0x0d]),
-        //
-        // Buffer.from([0x0a]),
-        // Buffer.from([0x30,0x35,0x30,0x34,0x31,0x46,0x41]),
-        // Buffer.from([0x0d]),
-        //
-        // Buffer.from([0x0a, 0x30,0x35,0x30,0x34,0x31,0x46,0x41, 0x0d].reverse()),
-        //
-        // Buffer.from([0x0a]),
-        // Buffer.from([0x30,0x35,0x30,0x34,0x31,0x46,0x41].reverse()),
-        // Buffer.from([0x0d]),
+//stdin.setEncoding( 'utf8' );
+process.stdin.setRawMode(true);
+process.stdin.resume();
 
-
-        Buffer.from([0x30,0x35,0x30,0x34,0x31,0x46,0x41]),
-        // Buffer.from([0x30,0x35,0x30,0x34,0x31,0x46,0x41].reverse()),
-    ];
-
-    for (let message of messages) {
-        console.log('Sending: ', message);
-        btSerial.write(message, function(err, bytesWritten) {
-            console.log('Written: ', bytesWritten);
-            if (err) {
-                console.log('ERROR: ', err);
-            };
-        });
+process.stdin.on('keypress', function (ch, key) {
+    switch (key.name) {
+        case 'c':
+            console.log('Connecting turret...');
+            turret.connect();
+            break;
+        case 'd':
+            console.log('Disconnecting turret...');
+            turret.disconnect();
+            break;
+        case 'up':
+            turret.up();
+            break;
+        case 'down':
+            turret.down();
+            break;
+        case 'left':
+            turret.left();
+            break;
+        case 'right':
+            turret.right();
+            break;
+        case 'space':
+            turret.fire();
+            break;
+        default:
     }
 
-    //Mesage received all the time <Buffer 55 04 00 38 00 00 c4>
-    btSerial.on('data', function(buffer) {
-        console.log('Received: ', buffer);
-    });
-}, function () {
-    console.log('Cannot connect.');
+    //Quit
+    if (key && key.ctrl && key.name == 'c') {
+        process.exit();
+    }
 });
 
-//Is it needed??
-btSerial.close();
+console.log('Ready.');
