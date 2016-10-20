@@ -1,6 +1,15 @@
 module.exports = {
     checksum: function(chars) {
-        return Buffer.from(['0x30', '0x30']);
+        let checksum = [];
+        if (!Array.isArray(chars)) {
+            chars = [chars];
+        }
+
+        let sum = chars.reduce((a, b) => a + b, 0).toString(16).toUpperCase();
+        for (byte of sum) {
+            checksum.push(parseInt(byte.charCodeAt(0).toString()));
+        }
+        return checksum;
     },
 
     asciiToHex: function(chars) {
@@ -19,5 +28,4 @@ module.exports = {
 
         return result;
     }
-}
-;
+};
