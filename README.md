@@ -1,5 +1,8 @@
 # dc_bt_missile_launcher
 
+## Requirements
+`sudo apt-get install libbluetooth-dev`
+
 ## Installation
 `npm install`
 
